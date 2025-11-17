@@ -1,0 +1,2065 @@
+{
+  "source": {
+    "hash": "0x9949de08fb997fafab3ee00110b252c2625281abf439093a2b85245cc2475233",
+    "language": "ink! 5.1.1",
+    "compiler": "rustc 1.91.1",
+    "build_info": {
+      "build_mode": "Release",
+      "cargo_contract_version": "5.0.3",
+      "rust_toolchain": "stable-x86_64-unknown-linux-gnu",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "mev_protection",
+    "version": "0.1.0",
+    "authors": [
+      "[your_name] <[your_email]>"
+    ]
+  },
+  "image": null,
+  "spec": {
+    "constructors": [
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          "Creates a new MEVProtection contract"
+        ],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink_primitives",
+            "ConstructorResult"
+          ],
+          "type": 27
+        },
+        "selector": "0x9bae9d5e"
+      }
+    ],
+    "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": [
+          "AccountId"
+        ],
+        "type": 1
+      },
+      "balance": {
+        "displayName": [
+          "Balance"
+        ],
+        "type": 0
+      },
+      "blockNumber": {
+        "displayName": [
+          "BlockNumber"
+        ],
+        "type": 15
+      },
+      "chainExtension": {
+        "displayName": [
+          "ChainExtension"
+        ],
+        "type": 41
+      },
+      "hash": {
+        "displayName": [
+          "Hash"
+        ],
+        "type": 40
+      },
+      "maxEventTopics": 4,
+      "staticBufferSize": 16384,
+      "timestamp": {
+        "displayName": [
+          "Timestamp"
+        ],
+        "type": 5
+      }
+    },
+    "events": [
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "batch_id",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [
+          "Emitted when a batch is created"
+        ],
+        "label": "BatchCreated",
+        "module_path": "mev_protection::mev_protection",
+        "signature_topic": "0xfb5b96a3c9bceda894a6809718357fc5fac200a9fd39c584d6f1bdb681b5d64e"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "batch_id",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [
+          "Emitted when a batch is executed"
+        ],
+        "label": "BatchExecuted",
+        "module_path": "mev_protection::mev_protection",
+        "signature_topic": "0xb38096336223dd880daa377fe0c9a0961fb42bb226800b580c86abb45686619c"
+      },
+      {
+        "args": [
+          {
+            "docs": [],
+            "indexed": true,
+            "label": "intent_id",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "docs": [
+          "Emitted when an intent is submitted"
+        ],
+        "label": "IntentSubmitted",
+        "module_path": "mev_protection::mev_protection",
+        "signature_topic": "0xa2e51ffbf226f8b3e026715d243927eff4599d7f4eb53f21e8e0b314ed4bc332"
+      }
+    ],
+    "lang_error": {
+      "displayName": [
+        "ink",
+        "LangError"
+      ],
+      "type": 28
+    },
+    "messages": [
+      {
+        "args": [
+          {
+            "label": "encrypted_intent",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "token_in",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "token_out",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 4
+            }
+          },
+          {
+            "label": "min_output",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Submits an encrypted trading intent",
+          "",
+          " # Arguments",
+          " * `encrypted_intent` - Encrypted intent parameters",
+          " * `token_in` - Input token address",
+          " * `token_out` - Output token address",
+          " * `min_output` - Minimum acceptable output amount",
+          "",
+          " # Returns",
+          " The intent ID"
+        ],
+        "label": "submit_intent",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 29
+        },
+        "selector": "0x199cb56d"
+      },
+      {
+        "args": [
+          {
+            "label": "intent_ids",
+            "type": {
+              "displayName": [
+                "Vec"
+              ],
+              "type": 14
+            }
+          },
+          {
+            "label": "execution_route",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Creates a batch from pending intents",
+          "",
+          " # Arguments",
+          " * `intent_ids` - IDs of intents to batch",
+          " * `execution_route` - DEX routing strategy",
+          "",
+          " # Returns",
+          " The batch ID"
+        ],
+        "label": "create_batch",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 29
+        },
+        "selector": "0x2dee6cd2"
+      },
+      {
+        "args": [
+          {
+            "label": "batch_id",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "actual_output",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          },
+          {
+            "label": "execution_price",
+            "type": {
+              "displayName": [
+                "String"
+              ],
+              "type": 4
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Executes a batch on DEX",
+          "",
+          " # Arguments",
+          " * `batch_id` - ID of batch to execute",
+          " * `actual_output` - Actual output amount from DEX",
+          " * `execution_price` - Execution price used",
+          "",
+          " # Returns",
+          " true if execution was successful"
+        ],
+        "label": "execute_batch",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 30
+        },
+        "selector": "0x623c4880"
+      },
+      {
+        "args": [
+          {
+            "label": "intent_id",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Retrieves an intent by ID"
+        ],
+        "label": "get_intent",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 31
+        },
+        "selector": "0x8cfde611"
+      },
+      {
+        "args": [
+          {
+            "label": "batch_id",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Retrieves a batch by ID"
+        ],
+        "label": "get_batch",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 33
+        },
+        "selector": "0x724c4607"
+      },
+      {
+        "args": [
+          {
+            "label": "batch_id",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Retrieves batch execution result"
+        ],
+        "label": "get_batch_result",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 35
+        },
+        "selector": "0x39b5ca00"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " Gets the current intent counter"
+        ],
+        "label": "get_intent_counter",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 29
+        },
+        "selector": "0x70dbfa23"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " Gets the current batch counter"
+        ],
+        "label": "get_batch_counter",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 29
+        },
+        "selector": "0x4a9df465"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [
+          " Gets pending intents count"
+        ],
+        "label": "get_pending_intents",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 37
+        },
+        "selector": "0x55390161"
+      },
+      {
+        "args": [
+          {
+            "label": "batch_id",
+            "type": {
+              "displayName": [
+                "u128"
+              ],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Gets batch statistics"
+        ],
+        "label": "get_batch_stats",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 38
+        },
+        "selector": "0xc6f74627"
+      },
+      {
+        "args": [
+          {
+            "label": "batch_size",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 15
+            }
+          },
+          {
+            "label": "min_batch_size",
+            "type": {
+              "displayName": [
+                "u32"
+              ],
+              "type": 15
+            }
+          }
+        ],
+        "default": false,
+        "docs": [
+          " Sets batch size configuration"
+        ],
+        "label": "set_batch_config",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 30
+        },
+        "selector": "0xb4ab561c"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8217efc8",
+                              "ty": 0
+                            }
+                          },
+                          "name": "intent_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8217efc8",
+                              "ty": 1
+                            }
+                          },
+                          "name": "user"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8217efc8",
+                              "ty": 4
+                            }
+                          },
+                          "name": "encrypted_intent"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8217efc8",
+                              "ty": 4
+                            }
+                          },
+                          "name": "token_in"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8217efc8",
+                              "ty": 4
+                            }
+                          },
+                          "name": "token_out"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8217efc8",
+                              "ty": 0
+                            }
+                          },
+                          "name": "min_output"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x8217efc8",
+                              "name": "IntentStatus",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Pending"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Batched"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Executed"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Failed"
+                                },
+                                "4": {
+                                  "fields": [],
+                                  "name": "Cancelled"
+                                }
+                              }
+                            }
+                          },
+                          "name": "status"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x8217efc8",
+                              "ty": 5
+                            }
+                          },
+                          "name": "created_at"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0x8217efc8",
+                              "name": "Option",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "None"
+                                },
+                                "1": {
+                                  "fields": [
+                                    {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0x8217efc8",
+                                          "ty": 0
+                                        }
+                                      },
+                                      "name": "0"
+                                    }
+                                  ],
+                                  "name": "Some"
+                                }
+                              }
+                            }
+                          },
+                          "name": "batch_id"
+                        }
+                      ],
+                      "name": "Intent"
+                    }
+                  },
+                  "root_key": "0x8217efc8",
+                  "ty": 6
+                }
+              },
+              "name": "intents"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbe4dda03",
+                              "ty": 0
+                            }
+                          },
+                          "name": "batch_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbe4dda03",
+                              "ty": 14
+                            }
+                          },
+                          "name": "intent_ids"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbe4dda03",
+                              "ty": 15
+                            }
+                          },
+                          "name": "intent_count"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbe4dda03",
+                              "ty": 0
+                            }
+                          },
+                          "name": "total_volume"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbe4dda03",
+                              "ty": 4
+                            }
+                          },
+                          "name": "execution_route"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0xbe4dda03",
+                              "name": "IntentStatus",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "Pending"
+                                },
+                                "1": {
+                                  "fields": [],
+                                  "name": "Batched"
+                                },
+                                "2": {
+                                  "fields": [],
+                                  "name": "Executed"
+                                },
+                                "3": {
+                                  "fields": [],
+                                  "name": "Failed"
+                                },
+                                "4": {
+                                  "fields": [],
+                                  "name": "Cancelled"
+                                }
+                              }
+                            }
+                          },
+                          "name": "status"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0xbe4dda03",
+                              "ty": 5
+                            }
+                          },
+                          "name": "created_at"
+                        },
+                        {
+                          "layout": {
+                            "enum": {
+                              "dispatchKey": "0xbe4dda03",
+                              "name": "Option",
+                              "variants": {
+                                "0": {
+                                  "fields": [],
+                                  "name": "None"
+                                },
+                                "1": {
+                                  "fields": [
+                                    {
+                                      "layout": {
+                                        "leaf": {
+                                          "key": "0xbe4dda03",
+                                          "ty": 5
+                                        }
+                                      },
+                                      "name": "0"
+                                    }
+                                  ],
+                                  "name": "Some"
+                                }
+                              }
+                            }
+                          },
+                          "name": "executed_at"
+                        }
+                      ],
+                      "name": "Batch"
+                    }
+                  },
+                  "root_key": "0xbe4dda03",
+                  "ty": 16
+                }
+              },
+              "name": "batches"
+            },
+            {
+              "layout": {
+                "root": {
+                  "layout": {
+                    "struct": {
+                      "fields": [
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x06ba88f8",
+                              "ty": 0
+                            }
+                          },
+                          "name": "batch_id"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x06ba88f8",
+                              "ty": 21
+                            }
+                          },
+                          "name": "success"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x06ba88f8",
+                              "ty": 0
+                            }
+                          },
+                          "name": "total_input_amount"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x06ba88f8",
+                              "ty": 0
+                            }
+                          },
+                          "name": "total_output_amount"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x06ba88f8",
+                              "ty": 4
+                            }
+                          },
+                          "name": "execution_price"
+                        },
+                        {
+                          "layout": {
+                            "leaf": {
+                              "key": "0x06ba88f8",
+                              "ty": 5
+                            }
+                          },
+                          "name": "timestamp"
+                        }
+                      ],
+                      "name": "BatchResult"
+                    }
+                  },
+                  "root_key": "0x06ba88f8",
+                  "ty": 22
+                }
+              },
+              "name": "batch_results"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 0
+                }
+              },
+              "name": "intent_counter"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 0
+                }
+              },
+              "name": "batch_counter"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 1
+                }
+              },
+              "name": "admin"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 15
+                }
+              },
+              "name": "batch_size"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 15
+                }
+              },
+              "name": "min_batch_size"
+            }
+          ],
+          "name": "MEVProtection"
+        }
+      },
+      "root_key": "0x00000000",
+      "ty": 26
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 2,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "AccountId"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 3
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "primitive": "str"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 7
+          },
+          {
+            "name": "KeyType",
+            "type": 10
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "intent_id",
+                "type": 0,
+                "typeName": "u128"
+              },
+              {
+                "name": "user",
+                "type": 1,
+                "typeName": "H160"
+              },
+              {
+                "name": "encrypted_intent",
+                "type": 4,
+                "typeName": "String"
+              },
+              {
+                "name": "token_in",
+                "type": 4,
+                "typeName": "String"
+              },
+              {
+                "name": "token_out",
+                "type": 4,
+                "typeName": "String"
+              },
+              {
+                "name": "min_output",
+                "type": 0,
+                "typeName": "u128"
+              },
+              {
+                "name": "status",
+                "type": 8,
+                "typeName": "IntentStatus"
+              },
+              {
+                "name": "created_at",
+                "type": 5,
+                "typeName": "u64"
+              },
+              {
+                "name": "batch_id",
+                "type": 9,
+                "typeName": "Option<u128>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "mev_protection",
+          "mev_protection",
+          "Intent"
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "Pending"
+              },
+              {
+                "index": 1,
+                "name": "Batched"
+              },
+              {
+                "index": 2,
+                "name": "Executed"
+              },
+              {
+                "index": 3,
+                "name": "Failed"
+              },
+              {
+                "index": 4,
+                "name": "Cancelled"
+              }
+            ]
+          }
+        },
+        "path": [
+          "mev_protection",
+          "mev_protection",
+          "IntentStatus"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 11
+          },
+          {
+            "name": "R",
+            "type": 12
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "AutoKey"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 13
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 0
+          }
+        }
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 17
+          },
+          {
+            "name": "KeyType",
+            "type": 19
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "batch_id",
+                "type": 0,
+                "typeName": "u128"
+              },
+              {
+                "name": "intent_ids",
+                "type": 14,
+                "typeName": "Vec<u128>"
+              },
+              {
+                "name": "intent_count",
+                "type": 15,
+                "typeName": "u32"
+              },
+              {
+                "name": "total_volume",
+                "type": 0,
+                "typeName": "u128"
+              },
+              {
+                "name": "execution_route",
+                "type": 4,
+                "typeName": "String"
+              },
+              {
+                "name": "status",
+                "type": 8,
+                "typeName": "IntentStatus"
+              },
+              {
+                "name": "created_at",
+                "type": 5,
+                "typeName": "u64"
+              },
+              {
+                "name": "executed_at",
+                "type": 18,
+                "typeName": "Option<u64>"
+              }
+            ]
+          }
+        },
+        "path": [
+          "mev_protection",
+          "mev_protection",
+          "Batch"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 5
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 5
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 11
+          },
+          {
+            "name": "R",
+            "type": 20
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 13
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "primitive": "bool"
+        }
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "K",
+            "type": 0
+          },
+          {
+            "name": "V",
+            "type": 23
+          },
+          {
+            "name": "KeyType",
+            "type": 24
+          }
+        ],
+        "path": [
+          "ink_storage",
+          "lazy",
+          "mapping",
+          "Mapping"
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "batch_id",
+                "type": 0,
+                "typeName": "u128"
+              },
+              {
+                "name": "success",
+                "type": 21,
+                "typeName": "bool"
+              },
+              {
+                "name": "total_input_amount",
+                "type": 0,
+                "typeName": "u128"
+              },
+              {
+                "name": "total_output_amount",
+                "type": 0,
+                "typeName": "u128"
+              },
+              {
+                "name": "execution_price",
+                "type": 4,
+                "typeName": "String"
+              },
+              {
+                "name": "timestamp",
+                "type": 5,
+                "typeName": "u64"
+              }
+            ]
+          }
+        },
+        "path": [
+          "mev_protection",
+          "mev_protection",
+          "BatchResult"
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "L",
+            "type": 11
+          },
+          {
+            "name": "R",
+            "type": 25
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ResolverKey"
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "composite": {}
+        },
+        "params": [
+          {
+            "name": "ParentKey",
+            "type": 13
+          }
+        ],
+        "path": [
+          "ink_storage_traits",
+          "impls",
+          "ManualKey"
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "intents",
+                "type": 6,
+                "typeName": "<Mapping<u128, Intent> as::ink::storage::traits::AutoStorableHint\n<::ink::storage::traits::ManualKey<3371112322u32, ()>,>>::Type"
+              },
+              {
+                "name": "batches",
+                "type": 16,
+                "typeName": "<Mapping<u128, Batch> as::ink::storage::traits::AutoStorableHint<\n::ink::storage::traits::ManualKey<64638398u32, ()>,>>::Type"
+              },
+              {
+                "name": "batch_results",
+                "type": 22,
+                "typeName": "<Mapping<u128, BatchResult> as::ink::storage::traits::\nAutoStorableHint<::ink::storage::traits::ManualKey<4169710086u32,\n()>,>>::Type"
+              },
+              {
+                "name": "intent_counter",
+                "type": 0,
+                "typeName": "<u128 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<3806026662u32, ()>,>>::Type"
+              },
+              {
+                "name": "batch_counter",
+                "type": 0,
+                "typeName": "<u128 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<2197579285u32, ()>,>>::Type"
+              },
+              {
+                "name": "admin",
+                "type": 1,
+                "typeName": "<H160 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<4141268452u32, ()>,>>::Type"
+              },
+              {
+                "name": "batch_size",
+                "type": 15,
+                "typeName": "<u32 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<3675673481u32, ()>,>>::Type"
+              },
+              {
+                "name": "min_batch_size",
+                "type": 15,
+                "typeName": "<u32 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<1196470993u32, ()>,>>::Type"
+              }
+            ]
+          }
+        },
+        "path": [
+          "mev_protection",
+          "mev_protection",
+          "MEVProtection"
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 13
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 13
+          },
+          {
+            "name": "E",
+            "type": 28
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "LangError"
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          },
+          {
+            "name": "E",
+            "type": 28
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 21
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 21
+          },
+          {
+            "name": "E",
+            "type": 28
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 32
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 32
+          },
+          {
+            "name": "E",
+            "type": 28
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 7
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 7
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 34
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 34
+          },
+          {
+            "name": "E",
+            "type": 28
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 36
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 36
+          },
+          {
+            "name": "E",
+            "type": 28
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "None"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 23
+                  }
+                ],
+                "index": 1,
+                "name": "Some"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 23
+          }
+        ],
+        "path": [
+          "Option"
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 15
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 15
+          },
+          {
+            "name": "E",
+            "type": 28
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 39
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 28
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 39
+          },
+          {
+            "name": "E",
+            "type": 28
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "type": {
+        "def": {
+          "tuple": [
+            15,
+            0,
+            21
+          ]
+        }
+      }
+    },
+    {
+      "id": 40,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 2,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": [
+          "ink_primitives",
+          "types",
+          "Hash"
+        ]
+      }
+    },
+    {
+      "id": 41,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": [
+          "ink_env",
+          "types",
+          "NoChainExtension"
+        ]
+      }
+    }
+  ],
+  "version": 5
+}
