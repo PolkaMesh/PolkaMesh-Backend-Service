@@ -412,8 +412,3 @@ docker-compose up -d
 
 **Built with ❤️ for the Polkadot ecosystem using NestJS**
 
----
-
-> **Version**: v1.0.0  
-> **Last Updated**: November 2024  
-> **Requirements**: Node.js 18+, TypeScript 5+, NestJS 10+
