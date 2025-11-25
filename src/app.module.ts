@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
-import { BlockchainModule } from './modules/blockchain/blockchain.module';
-import { ContractsModule } from './modules/contracts/contracts.module';
-import { JobsModule } from './modules/jobs/jobs.module';
-import { AttestationModule } from './modules/attestation/attestation.module';
+import { SdkModule } from './modules/sdk/sdk.module';
+import { ApiModule } from './modules/api/api.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -19,11 +17,11 @@ import { AppService } from './app.service';
     // Scheduling for background tasks
     ScheduleModule.forRoot(),
 
-    // Core modules
-    BlockchainModule,
-    ContractsModule,
-    JobsModule,
-    AttestationModule,
+    // SDK module for real blockchain integration
+    SdkModule,
+
+    // API module with real contract calls
+    ApiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
